@@ -1,5 +1,6 @@
 import { AppData } from "@/types";
 import { seed } from "@/lib/seed";
+import { accentThemes } from '@/lib/theme';
 import { withMediaDefaults, safeMediaUrl } from "@/lib/exercises/catalog";
 const KEY = "repup:data:v1";
 const obj = (v: unknown): v is Record<string, unknown> =>
@@ -121,6 +122,8 @@ export function validate(v: unknown): v is AppData {
       (session(v.active) && obj(v.active) && !v.active.finishedAt)) &&
     ["kg", "lb"].includes(String(s.unit)) &&
     ["dark", "light"].includes(String(s.theme)) &&
+    (s.accentColor === undefined || (typeof s.accentColor === 'string' && Object.hasOwn(accentThemes,s.accentColor))) &&
+    (s.avatarUrl === undefined || (typeof s.avatarUrl === 'string' && s.avatarUrl.length <= 150000 && /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(s.avatarUrl))) &&
     num(s.restSeconds) &&
     Number(s.restSeconds) <= 3600 &&
     num(s.increment) &&

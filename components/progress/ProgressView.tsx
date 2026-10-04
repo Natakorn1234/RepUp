@@ -170,8 +170,8 @@ export default function ProgressView({
               <AreaChart data={points}>
                 <defs>
                   <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#c8f36a" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#c8f36a" stopOpacity={0} />
+                    <stop offset="0%" stopColor="var(--accent)" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="var(--accent)" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
@@ -203,10 +203,10 @@ export default function ProgressView({
                   type="monotone"
                   dataKey="value"
                   name={metric === "Best set reps" ? "reps" : unit}
-                  stroke="#c8f36a"
+                  stroke="var(--accent)"
                   strokeWidth={3}
                   fill="url(#chartFill)"
-                  dot={{ r: 4, fill: "#c8f36a" }}
+                  dot={{ r: 4, fill: "var(--accent)" }}
                 />
               </AreaChart>
             </ResponsiveContainer>

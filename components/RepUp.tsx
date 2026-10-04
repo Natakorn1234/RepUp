@@ -42,6 +42,8 @@ import TemplateEditor, { ExercisePicker } from "./workout/TemplateEditor";
 import SessionDetail from "./workout/SessionDetail";
 import ProgressView from "./progress/ProgressView";
 import SettingsView from "./SettingsView";
+import { accentThemes } from '@/lib/theme';
+import { Avatar } from './ProfilePhoto';
 import ExerciseMedia from "./exercises/ExerciseMedia";
 export default function RepUp() {
   const [data, setData] = useState<AppData | null>(null);
@@ -96,8 +98,13 @@ export default function RepUp() {
     };
   }, []);
   useEffect(() => {
-    if (data) document.documentElement.dataset.theme = data.settings.theme;
-  }, [data?.settings.theme]);
+    if (!data) return;
+    const root=document.documentElement;
+    root.dataset.theme=data.settings.theme;
+    const palette=accentThemes[data.settings.accentColor||'lime'];
+    root.style.setProperty('--accent',data.settings.theme==='light'?palette.light:palette.color);
+    root.style.setProperty('--accent-fill',palette.color);
+  }, [data?.settings.theme,data?.settings.accentColor]);
   useEffect(() => {
     if (!toast) return;
     const id = setTimeout(() => setToast(""), 5500);
@@ -293,7 +300,7 @@ export default function RepUp() {
                 <span className="local-dot" /> STORED ON DEVICE
               </span>
             )}
-            <span className="avatar">YOU</span>
+            <button className="avatar avatar-button" aria-label="Profile photo settings" onClick={()=>{setTab('Settings');setDetail(null);setTemplates(false);}}><Avatar src={data.settings.avatarUrl}/></button>
           </div>
         </header>
         <main>

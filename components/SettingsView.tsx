@@ -9,6 +9,8 @@ import {
 import { AppData } from "@/types";
 import { storage } from "@/lib/storage";
 import { seed } from "@/lib/seed";
+import ProfilePhoto from './ProfilePhoto';
+import { accentThemes } from '@/lib/theme';
 export default function SettingsView({
   data,
   update,
@@ -30,6 +32,7 @@ export default function SettingsView({
         <h1>Your setup.</h1>
         <p>Less setup. More lifting.</p>
       </div>
+      <ProfilePhoto src={data.settings.avatarUrl} onChange={avatarUrl=>set({avatarUrl})} toast={toast}/>
       <section className="panel">
         <h2>Training preferences</h2>
         <label className="setting-row">
@@ -115,6 +118,18 @@ export default function SettingsView({
           >
             <option value="dark">Dark</option>
             <option value="light">Light</option>
+          </select>
+        </label>
+        <label className="setting-row">
+          <span>Theme color<small>Works in dark and light mode</small></span>
+          <select
+            aria-label="Theme color"
+            value={data.settings.accentColor || 'lime'}
+            onChange={(e) => set({ accentColor: e.target.value })}
+          >
+            {Object.entries(accentThemes).map(([id, palette]) => (
+              <option key={id} value={id}>{palette.name}</option>
+            ))}
           </select>
         </label>
       </section>

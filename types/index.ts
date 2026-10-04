@@ -51,6 +51,8 @@ export interface UserSettings {
   autoRest: boolean;
   sound: boolean;
   theme: "dark" | "light";
+  avatarUrl?: string;
+  accentColor?: import('@/lib/theme').AccentColor;
 }
 export interface Schedule {
   days: (string | null)[];
