@@ -1751,8 +1751,8 @@ details textarea {
     display: flex;
   }
   .topbar {
-    height: 76px;
-    padding: calc(env(safe-area-inset-top) + 15px) 23px 15px;
+    height: 88px;
+    padding: calc(env(safe-area-inset-top) + 27px) 23px 15px;
     border-bottom: 0;
   }
   .topbar-right {
@@ -2740,6 +2740,6 @@ textarea {
 .tip-icon { border-color:color-mix(in srgb,var(--accent) 35%,transparent); }
 .rest-timer>button { color:var(--on-accent);background:#00000012; }
 @media(max-width:640px){
-  :root { --mobile-safe-bottom:env(safe-area-inset-bottom,0px); --mobile-nav-height:calc(53px + var(--mobile-safe-bottom)); }
+  :root { --mobile-safe-bottom:max(0px, calc(env(safe-area-inset-bottom,0px) - 8px)); --mobile-nav-height:calc(53px + var(--mobile-safe-bottom)); }
   .mobile-nav .bottom-nav button { line-height:14px; }
 }
