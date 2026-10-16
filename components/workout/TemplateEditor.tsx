@@ -178,7 +178,7 @@ export default function TemplateEditor({
                 </div>
               </div>
               <div className="target-inputs">
-                {targetFields.filter(([key]) => openEndedReps || key !== "maxReps").map(([key, label]) => (
+                {targetFields.filter(([key]) => !openEndedReps || key !== "maxReps").map(([key, label]) => (
                   <label key={key}>
                     {label}
                     <input
