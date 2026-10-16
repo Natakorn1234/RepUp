@@ -27,7 +27,13 @@ const withTemplateDefaults = (data: AppData): AppData => ({
     ),
   ].map((template) => ({
     ...template,
-    exercises: template.exercises.map(normalizeTargets),
+    exercises: template.exercises.map((exercise) =>
+      normalizeTargets(
+        template.id === "upper" && exercise.exerciseId === "seated-row"
+          ? { ...exercise, exerciseId: "wide-grip-cable-row" }
+          : exercise,
+      ),
+    ),
   })),
   active: data.active
     ? {

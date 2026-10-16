@@ -91,7 +91,7 @@ export const defaultTemplates = (): WorkoutTemplate[] => [
       ["incline-press", 2],
       ["wide-grip-lat-pulldown", 2],
       ["pec-deck", 2],
-      ["seated-row", 2],
+      ["wide-grip-cable-row", 2],
       ["neutral-grip-pulldown", 1],
       ["lateral-raise", 3],
       ["shoulder-press", 2],

@@ -112,6 +112,8 @@ test("new default templates are added without changing existing templates", () =
   const lower = migrated.templates.find((template) => template.id === "lower");
   assert.equal(upper?.exercises.length, 9);
   assert.equal(upper?.exercises.find((exercise) => exercise.exerciseId === "lateral-raise")?.targetSets, 3);
+  assert.equal(upper?.exercises.some((exercise) => exercise.exerciseId === "seated-row"), false);
+  assert.equal(upper?.exercises.find((exercise) => exercise.exerciseId === "wide-grip-cable-row")?.targetSets, 2);
   assert.equal(lower?.exercises.length, 7);
   assert.equal(lower?.exercises.find((exercise) => exercise.exerciseId === "calf-raise")?.targetSets, 3);
   assert.deepEqual(migrated.templates.slice(0, 3), old.templates);
@@ -131,6 +133,19 @@ test("target migration uses RIR 1–3 and leaves hanging leg raise open-ended", 
     .find((template) => template.id === "lower")
     ?.exercises.find((exercise) => exercise.exerciseId === "hanging-leg-raise");
   assert.equal(hanging?.maxReps, 999);
+});
+test("existing Upper templates replace seated row with wide-grip cable row", () => {
+  const old = seed();
+  const upper = old.templates.find((template) => template.id === "upper")!;
+  upper.exercises = upper.exercises.map((exercise) =>
+    exercise.exerciseId === "wide-grip-cable-row"
+      ? { ...exercise, exerciseId: "seated-row" }
+      : exercise,
+  );
+  const migrated = storage.parse(JSON.stringify(old));
+  const migratedUpper = migrated.templates.find((template) => template.id === "upper")!;
+  assert.equal(migratedUpper.exercises.some((exercise) => exercise.exerciseId === "seated-row"), false);
+  assert.equal(migratedUpper.exercises.find((exercise) => exercise.exerciseId === "wide-grip-cable-row")?.targetSets, 2);
 });
 test("every default exercise has a small local illustration and cues", () => {
   let total = 0;
