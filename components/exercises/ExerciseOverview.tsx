@@ -24,7 +24,8 @@ export default function ExerciseOverview({
         <div className="overview-bottom">
           {target && (
             <p>
-              {target.targetSets} × {target.minReps}–{target.maxReps}
+              {target.targetSets} × {target.minReps}
+              {target.maxReps >= 999 ? "+" : `–${target.maxReps}`}
               <span>
                 RIR {target.minRir}–{target.maxRir}
               </span>

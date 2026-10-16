@@ -28,6 +28,8 @@ export default function ExerciseCard({
   history: WorkoutSession[];
   definition?: Exercise;
 }) {
+  const bodyweightOnly = e.exerciseId === "hanging-leg-raise";
+  const repTarget = e.maxReps >= 999 ? `${e.minReps}+` : `${e.minReps}–${e.maxReps}`;
   const update = (id: string, patch: object) =>
     onChange({
       ...e,
@@ -47,7 +49,7 @@ export default function ExerciseCard({
             {definition && <DemoButton exercise={definition} />}
           </div>
           <p>
-            {e.targetSets} sets <b>·</b> {e.minReps}–{e.maxReps} reps{" "}
+            {e.targetSets} sets <b>·</b> {repTarget} reps{" "}
             {s.rir && (
               <>
                 {" "}
@@ -96,7 +98,9 @@ export default function ExerciseCard({
                     {working(last)
                       .map(
                         (set) =>
-                          `${displayWeight(set.weight, s.unit)} × ${Math.min(e.maxReps, set.reps + 1)}`,
+                          bodyweightOnly
+                            ? `${set.reps + 1} reps`
+                            : `${displayWeight(set.weight, s.unit)} × ${Math.min(e.maxReps, set.reps + 1)}`,
                       )
                       .join(" / ")}
                     <small className="target-caption">
@@ -107,10 +111,10 @@ export default function ExerciseCard({
               </div>
             </div>
           )}
-          <div className={`set-grid set-labels ${s.rir ? "" : "no-rir"}`}>
+          <div className={`set-grid set-labels ${bodyweightOnly ? "bodyweight" : ""} ${s.rir ? "" : "no-rir"}`}>
             <span>SET</span>
             <span>PREVIOUS</span>
-            <span>{s.unit.toUpperCase()}</span>
+            {!bodyweightOnly && <span>{s.unit.toUpperCase()}</span>}
             <span>REPS</span>
             {s.rir && <span>RIR</span>}
             <span>✓</span>
@@ -126,7 +130,7 @@ export default function ExerciseCard({
             return (
               <div
                 key={set.id}
-                className={`set-grid ${s.rir ? "" : "no-rir"} ${set.completed ? "set-done" : ""}`}
+                className={`set-grid ${bodyweightOnly ? "bodyweight" : ""} ${s.rir ? "" : "no-rir"} ${set.completed ? "set-done" : ""}`}
               >
                 <button
                   title="Toggle warmup / working"
@@ -141,28 +145,32 @@ export default function ExerciseCard({
                 </button>
                 <span className="previous">
                   {old
-                    ? `${displayWeight(old.weight, s.unit)} × ${old.reps}`
+                    ? bodyweightOnly
+                      ? `${old.reps} reps`
+                      : `${displayWeight(old.weight, s.unit)} × ${old.reps}`
                     : "—"}
                   {old?.rir !== undefined && s.rir && <small>@{old.rir}</small>}
                 </span>
-                <input
-                  aria-label={`${e.name} set ${i + 1} weight`}
-                  type="number"
-                  inputMode="decimal"
-                  min="0"
-                  step="0.25"
-                  value={displayWeight(set.weight, s.unit) || ""}
-                  placeholder="0"
-                  onChange={(ev) =>
-                    update(set.id, {
-                      weight: toKg(
-                        Math.max(0, Number(ev.target.value)),
-                        s.unit,
-                      ),
-                      completed: false,
-                    })
-                  }
-                />
+                {!bodyweightOnly && (
+                  <input
+                    aria-label={`${e.name} set ${i + 1} weight`}
+                    type="number"
+                    inputMode="decimal"
+                    min="0"
+                    step="0.25"
+                    value={displayWeight(set.weight, s.unit) || ""}
+                    placeholder="0"
+                    onChange={(ev) =>
+                      update(set.id, {
+                        weight: toKg(
+                          Math.max(0, Number(ev.target.value)),
+                          s.unit,
+                        ),
+                        completed: false,
+                      })
+                    }
+                  />
+                )}
                 <input
                   aria-label={`${e.name} set ${i + 1} reps`}
                   type="number"

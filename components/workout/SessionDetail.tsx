@@ -135,8 +135,9 @@ export default function SessionDetail({
                       {set.type === "warmup" ? "WARMUP" : `SET ${i + 1}`}
                     </span>
                     <strong>
-                      {displayWeight(set.weight, data.settings.unit)}{" "}
-                      {data.settings.unit} × {set.reps}
+                      {e.exerciseId === "hanging-leg-raise"
+                        ? `${set.reps} reps`
+                        : `${displayWeight(set.weight, data.settings.unit)} ${data.settings.unit} × ${set.reps}`}
                     </strong>
                     <span>
                       {set.rir === undefined ? "" : `@${set.rir} RIR`}{" "}

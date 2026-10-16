@@ -1,6 +1,6 @@
 # RepUp original exercise illustrations
 
-The 24 SVG illustrations in `public/exercises/` were authored specifically for RepUp using the original coordinate-based drawing code in `scripts/generate-exercise-art.mjs`.
+The 28 SVG illustrations in `public/exercises/` were authored specifically for RepUp using the original coordinate-based drawing code in `scripts/generate-exercise-art.mjs`.
 
 No third-party exercise photography, illustration, animation, tracing, or commercial fitness-app media was incorporated. These project-original assets have no third-party attribution obligations. They may be used, modified, and distributed with RepUp. They are simplified movement-identification diagrams, with two static poses, not individualized coaching or a substitute for in-person technique instruction.
 
@@ -15,6 +15,6 @@ Geist Sans is separate third-party font software: Vercel / Basement Studio, offi
 
 ## Coverage and identity
 
-All 22 original seed exercises have an illustration. Cable SLDL (`cable-sldl`) and Calf Raise on Leg Press (`calf-raise-on-leg-press`) are added as two distinct exercise variants. Existing Romanian Deadlift and Calf Raise IDs are preserved. No template, schedule, active workout, or completed-session data is changed by the media enrichment. Any Push, Pull, Legs, Upper, or custom template using an existing global exercise ID shares its media and instructions.
+All 22 original seed exercises have an illustration. Cable SLDL (`cable-sldl`), Calf Raise on Leg Press (`calf-raise-on-leg-press`), Hip Abduction (`hip-abduction`), Hip Adduction (`hip-adduction`), Wide-Grip Cable Row (`wide-grip-cable-row`), and Hanging Leg Raise (`hanging-leg-raise`) are added as distinct exercise variants. Existing Romanian Deadlift and Calf Raise IDs are preserved. No template, schedule, active workout, or completed-session data is changed by the media enrichment. Any Push, Pull, Legs, Upper, or custom template using an existing global exercise ID shares its media and instructions.
 
 No animations are shipped. Optional animation URLs are supported only in the demo view, loaded after pressing Play, and disabled when reduced motion is requested. Default SVGs are small, local, cached independently of the required app shell, and require no external service.

@@ -416,6 +416,31 @@ function bridge(end, bench) {
     gear: bench ? bar(122, end ? 149 : 210) : "",
   };
 }
+function hipMachine(end, adduction = false) {
+  const open = adduction ? !end : end;
+  const leftKnee = open ? 58 : 96;
+  const rightKnee = open ? 162 : 124;
+  return {
+    bg:
+      seat() +
+      rect(71, 109, 78, 13, "#506346") +
+      line([73, 112], [leftKnee, 159], "#77886e", 8) +
+      line([147, 112], [rightKnee, 159], "#77886e", 8) +
+      rect(leftKnee - 10, 153, 12, 26, "#c8f36a") +
+      rect(rightKnee - 2, 153, 12, 26, "#c8f36a"),
+    body: {
+      hip: [110, 151],
+      legs: [
+        [[103, 151], [leftKnee, 175], [leftKnee + 8, 226]],
+        [[117, 151], [rightKnee, 175], [rightKnee - 8, 226]],
+      ],
+      arms: [
+        [[95, 94], [77, 123], [81, 151]],
+        [[125, 94], [137, 123], [135, 151]],
+      ],
+    },
+  };
+}
 const poses = {
   "incline-press": (e) => press(true, e),
   "flat-bench-press": (e) => press(false, e),
@@ -517,6 +542,35 @@ const poses = {
         7,
       ),
   }),
+  "wide-grip-cable-row": (e) => {
+    const hands = e
+      ? [[75, 137], [145, 137]]
+      : [[129, 121], [183, 137]];
+    return {
+      bg:
+        rect(53, 165, 57, 10) +
+        line([74, 175], [74, 230]) +
+        line([172, 207], [191, 160]) +
+        rect(181, 112, 27, 88),
+      body: {
+        head: [73, 81],
+        shoulder: [82, 107],
+        hip: [91, 161],
+        arms: [
+          [[80, 108], e ? [60, 124] : [108, 114], hands[0]],
+          [[91, 111], e ? [150, 123] : [149, 131], hands[1]],
+        ],
+        legs: [
+          [[88, 161], [137, 180], [173, 190]],
+          [[97, 169], [146, 189], [187, 201]],
+        ],
+        side: true,
+      },
+      gear:
+        line([192, 156], e ? [110, 137] : [156, 129], "#9dab94", 2) +
+        line(hands[0], hands[1], "#c8f36a", 6),
+    };
+  },
   "leg-press": (e) => legpress(e),
   "calf-raise-on-leg-press": (e) => legpress(e, true),
   "romanian-deadlift": (e) => hinge(e, false),
@@ -670,6 +724,30 @@ const poses = {
         5,
       ),
   }),
+  "hanging-leg-raise": (e) => ({
+    bg:
+      line([36, 31], [184, 31], "#5b6d52", 8) +
+      line([51, 31], [51, 64], "#65765f", 5) +
+      line([169, 31], [169, 64], "#65765f", 5),
+    body: {
+      head: [110, 82],
+      shoulder: [110, 108],
+      hip: [110, 164],
+      arms: [
+        [[95, 109], [75, 80], [62, 45]],
+        [[125, 109], [145, 80], [158, 45]],
+      ],
+      legs: e
+        ? [
+            [[103, 164], [83, 151], [77, 116]],
+            [[117, 164], [137, 151], [143, 116]],
+          ]
+        : [
+            [[103, 164], [95, 195], [91, 229]],
+            [[117, 164], [125, 195], [129, 229]],
+          ],
+    },
+  }),
   plank: () => ({
     body: {
       head: [56, 160],
@@ -704,6 +782,8 @@ const poses = {
   }),
   "hip-thrust": (e) => bridge(e, true),
   "glute-bridge": (e) => bridge(e, false),
+  "hip-abduction": (e) => hipMachine(e),
+  "hip-adduction": (e) => hipMachine(e, true),
 };
 await mkdir("public/exercises", { recursive: true });
 for (const [id, draw] of Object.entries(poses)) {

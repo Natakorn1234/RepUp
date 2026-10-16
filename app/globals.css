@@ -868,6 +868,12 @@ main {
     30px minmax(68px, 1.4fr) minmax(44px, 1fr) minmax(44px, 1fr)
     40px;
 }
+.set-grid.bodyweight {
+  grid-template-columns: 30px minmax(68px, 1.4fr) minmax(44px, 1fr) minmax(44px, 1fr) 40px;
+}
+.set-grid.bodyweight.no-rir {
+  grid-template-columns: 30px minmax(68px, 1.4fr) minmax(44px, 1fr) 40px;
+}
 .set-grid input {
   width: 100%;
   padding: 10px 3px;
@@ -2031,6 +2037,12 @@ details textarea {
     grid-template-columns:
       22px minmax(64px, 1.2fr) minmax(45px, 1fr) minmax(42px, 1fr)
       36px;
+  }
+  .set-grid.bodyweight {
+    grid-template-columns: 22px minmax(70px, 1.4fr) minmax(45px, 1fr) minmax(34px, 0.75fr) 36px;
+  }
+  .set-grid.bodyweight.no-rir {
+    grid-template-columns: 22px minmax(76px, 1.4fr) minmax(48px, 1fr) 36px;
   }
   .set-grid input {
     padding: 10px 0;

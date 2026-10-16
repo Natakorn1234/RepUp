@@ -92,6 +92,15 @@ const descriptions: Record<string, [string[], string[]]> = {
       "Return slowly without rocking your body.",
     ],
   ],
+  "wide-grip-cable-row": [
+    ["Biceps", "Rear delts"],
+    [
+      "Sit at a low cable with your feet braced and hold a straight bar with a wide overhand grip.",
+      "Keep your chest tall and shoulders away from your ears.",
+      "Pull the bar toward your lower ribs, driving your elbows out and back.",
+      "Return slowly with control without rocking your torso.",
+    ],
+  ],
   "reverse-pec-deck": [
     ["Upper back"],
     [
@@ -191,6 +200,15 @@ const descriptions: Record<string, [string[], string[]]> = {
       "Return slowly without letting the cable pull you into a large back arch.",
     ],
   ],
+  "hanging-leg-raise": [
+    ["Hip flexors"],
+    [
+      "Use a stable pull-up bar or captain's chair and begin from a controlled hang.",
+      "Keep your shoulders active and avoid swinging your torso.",
+      "Raise your knees or straight legs by curling your pelvis upward.",
+      "Lower slowly until you return to a stable hang before the next rep.",
+    ],
+  ],
   plank: [
     ["Glutes", "Shoulders"],
     [
@@ -218,6 +236,24 @@ const descriptions: Record<string, [string[], string[]]> = {
       "Lower slowly without pushing into a large lower-back arch.",
     ],
   ],
+  "hip-abduction": [
+    ["Hip abductors", "Outer thighs"],
+    [
+      "Adjust the seat and pads so your knees align comfortably with the machine pivot.",
+      "Sit tall with your back supported and keep both feet planted on the footrests.",
+      "Press your knees outward in a smooth, controlled motion.",
+      "Return slowly without letting the weight stack slam.",
+    ],
+  ],
+  "hip-adduction": [
+    ["Hip adductors", "Inner thighs"],
+    [
+      "Adjust the seat and pads so your knees align comfortably with the machine pivot.",
+      "Sit tall with your back supported and keep both feet planted on the footrests.",
+      "Bring your knees together smoothly without shifting your hips.",
+      "Return slowly to a comfortable stretch without forcing the range.",
+    ],
+  ],
 };
 
 export const additionalExercises: Exercise[] = [
@@ -232,6 +268,30 @@ export const additionalExercises: Exercise[] = [
     name: "Calf Raise on Leg Press",
     primaryMuscle: "Calves",
     equipment: "Leg press machine",
+  },
+  {
+    id: "hip-abduction",
+    name: "Hip Abduction",
+    primaryMuscle: "Glutes",
+    equipment: "Hip abduction machine",
+  },
+  {
+    id: "hip-adduction",
+    name: "Hip Adduction",
+    primaryMuscle: "Adductors",
+    equipment: "Hip adduction machine",
+  },
+  {
+    id: "wide-grip-cable-row",
+    name: "Wide-Grip Cable Row",
+    primaryMuscle: "Back",
+    equipment: "Cable / straight bar",
+  },
+  {
+    id: "hanging-leg-raise",
+    name: "Hanging Leg Raise",
+    primaryMuscle: "Core",
+    equipment: "Pull-up bar",
   },
 ];
 export function withExerciseDefaults(exercise: Exercise): Exercise {

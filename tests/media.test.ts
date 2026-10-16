@@ -9,6 +9,9 @@ import { WorkoutExercise } from "../types";
 
 test("old v1 data gains optional media without changing workout snapshots or custom content", () => {
   const old = seed();
+  old.templates = old.templates.filter(
+    (template) => !["upper", "lower"].includes(template.id),
+  );
   old.exercises = old.exercises
     .filter((e) => !["cable-sldl", "calf-raise-on-leg-press"].includes(e.id))
     .map(({ imageUrl, instructions, secondaryMuscles, ...e }) => e);
@@ -55,7 +58,10 @@ test("old v1 data gains optional media without changing workout snapshots or cus
   assert.ok(validate(old));
   assert.deepEqual(migrated.sessions, snapshot.sessions);
   assert.deepEqual(migrated.active, snapshot.active);
-  assert.deepEqual(migrated.templates, snapshot.templates);
+  assert.deepEqual(
+    migrated.templates.slice(0, snapshot.templates.length),
+    snapshot.templates,
+  );
   assert.deepEqual(migrated.settings, snapshot.settings);
   assert.deepEqual(migrated.schedule, snapshot.schedule);
   assert.ok(migrated.exercises[0].imageUrl);
@@ -97,6 +103,34 @@ test("global identity reuses media and respects provided custom metadata", () =>
   assert.deepEqual(withMediaDefaults(data).exercises[0].instructions, [
     "My cue",
   ]);
+});
+test("new default templates are added without changing existing templates", () => {
+  const old = seed();
+  old.templates = old.templates.filter((template) => !["upper", "lower"].includes(template.id));
+  const migrated = storage.parse(JSON.stringify(old));
+  const upper = migrated.templates.find((template) => template.id === "upper");
+  const lower = migrated.templates.find((template) => template.id === "lower");
+  assert.equal(upper?.exercises.length, 9);
+  assert.equal(upper?.exercises.find((exercise) => exercise.exerciseId === "lateral-raise")?.targetSets, 3);
+  assert.equal(lower?.exercises.length, 7);
+  assert.equal(lower?.exercises.find((exercise) => exercise.exerciseId === "calf-raise")?.targetSets, 3);
+  assert.deepEqual(migrated.templates.slice(0, 3), old.templates);
+});
+test("target migration uses RIR 1–3 and leaves hanging leg raise open-ended", () => {
+  const old = seed();
+  old.templates[0].exercises[0].minRir = 2;
+  old.templates[0].exercises[0].maxRir = 2;
+  const migrated = storage.parse(JSON.stringify(old));
+  for (const template of migrated.templates) {
+    for (const exercise of template.exercises) {
+      assert.equal(exercise.minRir, 1);
+      assert.equal(exercise.maxRir, 3);
+    }
+  }
+  const hanging = migrated.templates
+    .find((template) => template.id === "lower")
+    ?.exercises.find((exercise) => exercise.exerciseId === "hanging-leg-raise");
+  assert.equal(hanging?.maxReps, 999);
 });
 test("every default exercise has a small local illustration and cues", () => {
   let total = 0;

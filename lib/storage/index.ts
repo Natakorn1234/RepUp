@@ -1,5 +1,5 @@
 import { AppData } from "@/types";
-import { seed } from "@/lib/seed";
+import { defaultTemplates, seed } from "@/lib/seed";
 import { accentThemes } from '@/lib/theme';
 import { withMediaDefaults, safeMediaUrl } from "@/lib/exercises/catalog";
 const KEY = "repup:data:v1";
@@ -8,6 +8,34 @@ const obj = (v: unknown): v is Record<string, unknown> =>
 const num = (v: unknown) =>
   typeof v === "number" && Number.isFinite(v) && v >= 0;
 const str = (v: unknown) => typeof v === "string" && v.length > 0;
+const normalizeTargets = <T extends { exerciseId: string; minRir: number; maxRir: number; maxReps: number }>(
+  exercise: T,
+): T => ({
+  ...exercise,
+  minRir: 1,
+  maxRir: 3,
+  ...(exercise.exerciseId === "hanging-leg-raise" ? { maxReps: 999 } : {}),
+});
+// Add default templates by stable ID only. Keep schedules and completed workouts
+// unchanged; normalize only future/active target settings requested by the user.
+const withTemplateDefaults = (data: AppData): AppData => ({
+  ...data,
+  templates: [
+    ...data.templates,
+    ...defaultTemplates().filter(
+      (template) => !data.templates.some((current) => current.id === template.id),
+    ),
+  ].map((template) => ({
+    ...template,
+    exercises: template.exercises.map(normalizeTargets),
+  })),
+  active: data.active
+    ? {
+        ...data.active,
+        exercises: data.active.exercises.map(normalizeTargets),
+      }
+    : null,
+});
 function target(v: unknown): boolean {
   return (
     obj(v) &&
@@ -143,7 +171,7 @@ export const storage = {
       if (!raw) return { data: seed() };
       const data: unknown = JSON.parse(raw);
       if (!validate(data)) throw Error();
-      return { data: withMediaDefaults(data) };
+      return { data: withTemplateDefaults(withMediaDefaults(data)) };
     } catch {
       return {
         data: seed(),
@@ -165,6 +193,6 @@ export const storage = {
     const data: unknown = JSON.parse(raw);
     if (!validate(data))
       throw Error("Invalid RepUp backup or unsupported schema version.");
-    return withMediaDefaults(data);
+    return withTemplateDefaults(withMediaDefaults(data));
   },
 };

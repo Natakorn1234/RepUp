@@ -126,8 +126,16 @@ export default function TemplateEditor({
           />
         </label>
         <div className="editor-list">
-          {draft.exercises.map((e, i) => (
-            <div className="editor-exercise" key={e.exerciseId}>
+          {draft.exercises.map((e, i) => {
+            const openEndedReps = e.exerciseId === "hanging-leg-raise";
+            const targetFields = [
+              ["targetSets", "Sets"],
+              ["minReps", "Min reps"],
+              ["maxReps", "Max reps"],
+              ["minRir", "Min RIR"],
+              ["maxRir", "Max RIR"],
+            ] as const;
+            return <div className="editor-exercise" key={e.exerciseId}>
               <div className="section-heading">
                 <h3>{exercises.find((x) => x.id === e.exerciseId)?.name}</h3>
                 <div className="inline">
@@ -170,15 +178,7 @@ export default function TemplateEditor({
                 </div>
               </div>
               <div className="target-inputs">
-                {(
-                  [
-                    ["targetSets", "Sets"],
-                    ["minReps", "Min reps"],
-                    ["maxReps", "Max reps"],
-                    ["minRir", "Min RIR"],
-                    ["maxRir", "Max RIR"],
-                  ] as const
-                ).map(([key, label]) => (
+                {targetFields.filter(([key]) => openEndedReps || key !== "maxReps").map(([key, label]) => (
                   <label key={key}>
                     {label}
                     <input
@@ -210,8 +210,8 @@ export default function TemplateEditor({
                   </label>
                 ))}
               </div>
-            </div>
-          ))}
+            </div>;
+          })}
         </div>
         <button className="secondary full" onClick={() => setPicker(true)}>
           <Plus size={17} /> Add exercise

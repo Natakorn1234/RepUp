@@ -741,8 +741,9 @@ export default function RepUp() {
                             <span className="preview-info">
                               <strong>{ex?.name}</strong>
                               <small>
-                                {e.targetSets} sets <b>·</b> {e.minReps}–
-                                {e.maxReps} reps <b>·</b> {ex?.primaryMuscle}
+                                {e.targetSets} sets <b>·</b> {e.minReps}
+                                {e.maxReps >= 999 ? "+" : `–${e.maxReps}`} reps{" "}
+                                <b>·</b> {ex?.primaryMuscle}
                               </small>
                             </span>
                             <span className="preview-last">
