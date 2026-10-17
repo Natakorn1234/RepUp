@@ -29,6 +29,15 @@ const descriptions: Record<string, [string[], string[]]> = {
       "Press up evenly, keeping your shoulders supported.",
     ],
   ],
+  "flat-press": [
+    ["Triceps", "Front delts"],
+    [
+      "Adjust the chest press seat so the handles line up around mid-chest.",
+      "Keep your upper back supported and wrists stacked over your forearms.",
+      "Press the handles forward through a comfortable range without locking out hard.",
+      "Return slowly until you feel a comfortable chest stretch.",
+    ],
+  ],
   "shoulder-press": [
     ["Triceps", "Upper chest"],
     [
@@ -257,6 +266,12 @@ const descriptions: Record<string, [string[], string[]]> = {
 };
 
 export const additionalExercises: Exercise[] = [
+  {
+    id: "flat-press",
+    name: "Flat Press",
+    primaryMuscle: "Chest",
+    equipment: "Chest press machine",
+  },
   {
     id: "cable-sldl",
     name: "Cable SLDL",

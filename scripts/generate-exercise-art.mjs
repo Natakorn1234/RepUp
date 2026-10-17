@@ -179,6 +179,29 @@ function frontPress(end) {
     gear: hands.map((p) => dumbbell(p)).join(""),
   };
 }
+function chestPressMachine(end) {
+  const hands = end
+    ? [[62, 109], [158, 109]]
+    : [[83, 111], [137, 111]];
+  return {
+    bg:
+      seat() +
+      rect(92, 78, 36, 76) +
+      line([45, 73], [45, 164], "#56694d", 7) +
+      line([175, 73], [175, 164], "#56694d", 7) +
+      line([45, 82], hands[0], "#7b8c70", 6) +
+      line([175, 82], hands[1], "#7b8c70", 6),
+    body: {
+      hip: [110, 150],
+      legs: seatedLegs,
+      arms: [
+        [[95, 94], end ? [77, 105] : [86, 112], hands[0]],
+        [[125, 94], end ? [143, 105] : [134, 112], hands[1]],
+      ],
+    },
+    gear: hands.map((point) => circle(...point, 6, "#c8f36a")).join(""),
+  };
+}
 function fly(end, reverse = false) {
   const closed = reverse ? !end : end;
   const hands = closed
@@ -444,6 +467,7 @@ function hipMachine(end, adduction = false) {
 const poses = {
   "incline-press": (e) => press(true, e),
   "flat-bench-press": (e) => press(false, e),
+  "flat-press": chestPressMachine,
   "shoulder-press": frontPress,
   "pec-deck": (e) => fly(e),
   "reverse-pec-deck": (e) => fly(e, true),
