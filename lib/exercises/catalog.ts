@@ -137,6 +137,15 @@ const descriptions: Record<string, [string[], string[]]> = {
       "Lower slowly without leaning backward.",
     ],
   ],
+  "reverse-curl": [
+    ["Forearms", "Brachialis"],
+    [
+      "Stand tall holding a bar or dumbbells with palms facing down.",
+      "Keep your elbows close to your sides and wrists straight.",
+      "Curl the weight toward your shoulders without swinging.",
+      "Lower slowly until your arms are comfortably extended.",
+    ],
+  ],
   "leg-press": [
     ["Glutes"],
     [
@@ -207,6 +216,15 @@ const descriptions: Record<string, [string[], string[]]> = {
       "Keep your hips steady and the rope close to your temples.",
       "Curl your ribs toward your pelvis rather than pulling with your arms.",
       "Return slowly without letting the cable pull you into a large back arch.",
+    ],
+  ],
+  "machine-crunch": [
+    ["Hip flexors"],
+    [
+      "Adjust the seat and chest pad so the machine pivot feels comfortable.",
+      "Brace your torso against the pads and keep your hips stable.",
+      "Curl your ribs toward your pelvis in a controlled motion.",
+      "Return slowly without letting the weight stack pull you into a large back arch.",
     ],
   ],
   "hanging-leg-raise": [
@@ -307,6 +325,18 @@ export const additionalExercises: Exercise[] = [
     name: "Hanging Leg Raise",
     primaryMuscle: "Core",
     equipment: "Pull-up bar",
+  },
+  {
+    id: "reverse-curl",
+    name: "Reverse Curl",
+    primaryMuscle: "Biceps",
+    equipment: "Barbell / dumbbells",
+  },
+  {
+    id: "machine-crunch",
+    name: "Machine Crunch",
+    primaryMuscle: "Core",
+    equipment: "Abdominal crunch machine",
   },
 ];
 export function withExerciseDefaults(exercise: Exercise): Exercise {

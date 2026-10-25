@@ -71,7 +71,8 @@ export function ExportWorkoutCode({
         <p className="muted">This code contains the workout setup, so it works without an account or connection.</p>
         {error ? <p className="share-error">{error}</p> : !code ? <p className="fine">Creating secure check…</p> : <>
           <textarea ref={codeRef} className="share-code" aria-label="Workout sharing code" readOnly value={code} onFocus={(event) => event.currentTarget.select()} />
-          <p className="fine">Share ID {shareId} · {code.length.toLocaleString()} characters · Includes an integrity check · Not encrypted</p>
+          <p className="fine">Share ID {shareId} · {code.length.toLocaleString()} characters · Compressed with an integrity check · Not encrypted</p>
+          <p className="fine">Large workouts can still create longer codes.</p>
           <div className="share-actions">
             <button className="primary" onClick={() => void copy()}><Copy size={17} /> Copy code</button>
             <button className="secondary" onClick={() => void share()}><Share2 size={17} /> Share</button>
