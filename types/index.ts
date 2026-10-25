@@ -63,6 +63,7 @@ export interface AppData {
   templates: WorkoutTemplate[];
   sessions: WorkoutSession[];
   active: WorkoutSession | null;
+  importedShares?: string[];
   settings: UserSettings;
   schedule: Schedule;
 }

@@ -137,6 +137,13 @@ export function validate(v: unknown): v is AppData {
     ) &&
     new Set(ids).size === ids.length &&
     new Set(templateIds).size === templateIds.length &&
+    (v.importedShares === undefined ||
+      (Array.isArray(v.importedShares) &&
+        v.importedShares.length <= 200 &&
+        new Set(v.importedShares).size === v.importedShares.length &&
+        v.importedShares.every(
+          (id) => typeof id === "string" && /^RPU-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(id),
+        ))) &&
     v.templates.every(
       (t) =>
         obj(t) &&

@@ -1187,6 +1187,82 @@ details textarea {
   font-size: 12px;
   margin-top: 8px;
 }
+.template-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 18px;
+}
+.share-modal {
+  max-width: 560px;
+}
+.share-modal .section-heading {
+  align-items: flex-start;
+}
+.share-modal h2,
+.share-modal h3 {
+  margin: 2px 0 0;
+}
+.share-code {
+  display: block;
+  width: 100%;
+  min-height: 112px;
+  resize: vertical;
+  margin: 18px 0 8px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.import-code {
+  min-height: 160px;
+}
+.share-actions {
+  display: flex;
+  gap: 10px;
+  margin: 18px 0 6px;
+}
+.share-actions button {
+  flex: 1;
+  justify-content: center;
+}
+.share-error,
+.share-warning {
+  margin: 14px 0 0;
+  padding: 11px 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.share-error {
+  background: #6a2c2c;
+  color: #ffd4d4;
+}
+.share-warning {
+  background: #554824;
+  color: #ffeaaf;
+}
+.share-preview {
+  max-height: 37dvh;
+  overflow: auto;
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.share-preview > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 2px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+.share-preview strong { font-weight: 500; }
+.share-preview span { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2166,6 +2242,21 @@ details textarea {
   }
   .target-inputs input {
     padding: 8px 2px;
+  }
+  .template-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .template-actions button {
+    justify-content: center;
+  }
+  .share-modal {
+    padding: 20px;
+  }
+  .share-preview > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
   }
   .editor-exercise h3 {
     font-size: 12px;

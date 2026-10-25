@@ -20,6 +20,8 @@ import {
   WifiOff,
   Zap,
   Timer,
+  Share2,
+  Upload,
 } from "lucide-react";
 import {
   AppData,
@@ -43,8 +45,10 @@ import SessionDetail from "./workout/SessionDetail";
 import ProgressView from "./progress/ProgressView";
 import SettingsView from "./SettingsView";
 import { accentThemes } from '@/lib/theme';
+import { importSharedWorkout } from "@/lib/workout-share";
 import { Avatar } from './ProfilePhoto';
 import ExerciseMedia from "./exercises/ExerciseMedia";
+import { ExportWorkoutCode, ImportWorkoutCode } from "./workout/WorkoutShare";
 export default function RepUp() {
   const [data, setData] = useState<AppData | null>(null);
   const [tab, setTab] = useState<Tab>("Today");
@@ -52,6 +56,8 @@ export default function RepUp() {
   const [toast, setToast] = useState("");
   const [templates, setTemplates] = useState(false);
   const [editor, setEditor] = useState<WorkoutTemplate | null>(null);
+  const [exporting, setExporting] = useState<WorkoutTemplate | null>(null);
+  const [importing, setImporting] = useState(false);
   const [picker, setPicker] = useState(false);
   const [detail, setDetail] = useState<string | null>(null);
   const [recap, setRecap] = useState(false);
@@ -136,18 +142,20 @@ export default function RepUp() {
         "Existing saved data is unreadable. Replace it with this new data? Cancel to keep the original.",
       )
     )
-      return;
+      return false;
     try {
       storage.save(next);
       corrupt.current = false;
       setBlocked(false);
       setData(next);
+      return true;
     } catch {
       setToast(
         "Storage is full or unavailable. Changes are in memory; export a backup now.",
       );
       setData(next);
       setBlocked(true);
+      return false;
     }
   }
   if (!data)
@@ -379,6 +387,7 @@ export default function RepUp() {
                 setDetail(null);
                 setTab("Progress");
               }}
+              onExport={(template) => setExporting(template)}
             />
           ) : templates ? (
             <>
@@ -414,6 +423,13 @@ export default function RepUp() {
                   <div className="inline">
                     <button className="secondary" onClick={() => setEditor(t)}>
                       <Pencil size={15} /> Edit
+                    </button>
+                    <button
+                      className="icon-btn"
+                      aria-label={`Export ${t.name} sharing code`}
+                      onClick={() => setExporting(t)}
+                    >
+                      <Share2 size={18} />
                     </button>
                     <button
                       className="icon-btn"
@@ -462,14 +478,19 @@ export default function RepUp() {
                   </div>
                 </section>
               ))}
-              <button
-                className="primary"
-                onClick={() =>
-                  setEditor({ id: uid(), name: "New workout", exercises: [] })
-                }
-              >
-                <Plus size={18} /> Create workout
-              </button>
+              <div className="template-actions">
+                <button className="secondary" onClick={() => setImporting(true)}>
+                  <Upload size={17} /> Import code
+                </button>
+                <button
+                  className="primary"
+                  onClick={() =>
+                    setEditor({ id: uid(), name: "New workout", exercises: [] })
+                  }
+                >
+                  <Plus size={18} /> Create workout
+                </button>
+              </div>
             </>
           ) : tab === "Today" ? (
             active ? (
@@ -1016,6 +1037,36 @@ export default function RepUp() {
               setSelected(t.id);
               setEditor(null);
               setToast("Template saved");
+            }}
+          />
+        )}
+        {exporting && (
+          <ExportWorkoutCode
+            template={exporting}
+            onClose={() => setExporting(null)}
+            toast={setToast}
+          />
+        )}
+        {importing && (
+          <ImportWorkoutCode
+            exercises={data.exercises}
+            templates={data.templates}
+            importedShares={data.importedShares}
+            toast={setToast}
+            onClose={() => setImporting(false)}
+            onImport={(payload) => {
+              try {
+                const result = importSharedWorkout(data, payload, uid());
+                if (!update(result.data)) {
+                  setToast("Imported workout could not be saved. Check local storage and try again.");
+                  return;
+                }
+                setSelected(result.template.id);
+                setImporting(false);
+                setToast(result.duplicate ? "Workout imported as a copy" : "Workout imported");
+              } catch (reason) {
+                setToast(reason instanceof Error ? reason.message : "Could not import workout.");
+              }
             }}
           />
         )}

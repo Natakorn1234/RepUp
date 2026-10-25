@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ArrowLeft, Pencil, Trash2, Check, Trophy } from "lucide-react";
-import { AppData, WorkoutSession } from "@/types";
+import { ArrowLeft, Pencil, Trash2, Check, Trophy, Share2 } from "lucide-react";
+import { AppData, WorkoutSession, WorkoutTemplate } from "@/types";
 import {
   sessionSets,
   duration,
@@ -19,6 +19,7 @@ export default function SessionDetail({
   onDelete,
   recap,
   onExercise,
+  onExport,
 }: {
   session: WorkoutSession;
   data: AppData;
@@ -27,6 +28,7 @@ export default function SessionDetail({
   onDelete: () => void;
   recap: boolean;
   onExercise: (id: string) => void;
+  onExport: (template: WorkoutTemplate) => void;
 }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(structuredClone(s));
@@ -150,6 +152,27 @@ export default function SessionDetail({
             );
           })}
       <div className="inline">
+        <button
+          className="secondary"
+          onClick={() =>
+            onExport({
+              id: s.id,
+              name: s.name,
+              exercises: s.exercises.map(
+                ({ exerciseId, targetSets, minReps, maxReps, minRir, maxRir }) => ({
+                  exerciseId,
+                  targetSets,
+                  minReps,
+                  maxReps,
+                  minRir,
+                  maxRir,
+                }),
+              ),
+            })
+          }
+        >
+          <Share2 size={16} /> Export code
+        </button>
         <button
           className="secondary"
           onClick={() => {
